@@ -1,0 +1,12 @@
+app:
+  image: koduki/app-glassfish
+  ports:
+    - "8080:8080"
+    - "8181:8181"
+    - "4848:4848"
+  links:
+    - db
+db:
+  image: mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: password
