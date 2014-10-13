@@ -12,9 +12,7 @@ sudo yum install -y \
   docker \
   git
 
-# install fig
-sudo sh -c "curl -L https://github.com/docker/fig/releases/download/0.5.2/linux > /usr/local/bin/fig"
-sudo chmod +x /usr/local/bin/fig
+
 
 #
 # Disable SELinux
@@ -22,10 +20,24 @@ sudo chmod +x /usr/local/bin/fig
 sudo sed -i -e s/SELINUX=enforcing/SELINUX=disabled/g /etc/selinux/config
 
 #
-# configurate docker
+# Install docker and fig
 #
+
+# install docker
+sudo sh -c "curl -L https://raw.githubusercontent.com/docker/docker/master/contrib/init/systemd/docker.service > /etc/systemd/system/"
+sudo sh -c "curl -L https://raw.githubusercontent.com/docker/docker/master/contrib/init/systemd/docker.socket > /etc/systemd/system/"
+sudo sh -c "curl -L https://get.docker.io/builds/Linux/x86_64/docker-latest > /usr/bin/docker"
+
+sudo chmod +x /etc/systemd/system/docker.service
+sudo chmod +x /etc/systemd/system/docker.socket
+sudo chmod +x /usr/bin/docker
+
 sudo systemctl enable docker
 sudo systemctl start docker
+
+# install fig
+sudo sh -c "curl -L https://github.com/docker/fig/releases/download/0.5.2/linux > /usr/bin/fig"
+sudo chmod +x /usr/bin/fig
 
 #
 # configurate home settings.
