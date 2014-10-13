@@ -4,7 +4,7 @@
 # install packages
 #
 
-# yum
+# yum installs
 sudo yum install -y \
   zsh \
   unzip \
@@ -16,6 +16,16 @@ sudo yum install -y \
 sudo sh -c "curl -L https://github.com/docker/fig/releases/download/0.5.2/linux > /usr/local/bin/fig"
 sudo chmod +x /usr/local/bin/fig
 
+#
+# Disable SELinux
+#
+sudo sed -i -e s/SELINUX=enforcing/SELINUX=disabled/g /etc/selinux/config
+
+#
+# configurate docker
+#
+sudo systemctl enable docker
+sudo systemctl start docker
 
 #
 # configurate home settings.
