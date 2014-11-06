@@ -1,0 +1,14 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <head jsf:id="head">
+        <title>Account - Create</title>
+    </head>
+    <body jsf:id="body">
+        <form jsf:id="form">
+            <span>FirstName</span><input type="text" jsf:id="firstName" placeholder="Enter name" jsf:value="#{accounts.firstName}"/>
+            <span>LastName</span><input type="text" jsf:id="lastName" placeholder="Enter name" jsf:value="#{accounts.lastName}"/>
+            <span>Age</span><input type="text" jsf:id="age" placeholder="Enter name" jsf:value="#{accounts.age}"/>
+            <input type="submit" value="Submit" jsf:action="#{accounts.create()}" />
+        </form>
+    </body>
+</html>

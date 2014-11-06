@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -48,11 +49,12 @@ public class AccessLogFilter implements Filter {
             chain.doFilter(request, response);
         } finally {
             HttpServletRequest req = (HttpServletRequest) request;
-
+            HttpServletResponse res = (HttpServletResponse) response;
             logger.access(req.getRequestURI(),
                     req.getRemoteAddr(),
                     req.getHeader("User-Agent"),
-                    (System.currentTimeMillis() - start));
+                    (System.currentTimeMillis() - start),
+                    res.getStatus());
         }
     }
 

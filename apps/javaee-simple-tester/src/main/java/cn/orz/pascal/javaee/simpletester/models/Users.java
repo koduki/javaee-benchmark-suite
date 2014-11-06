@@ -43,4 +43,14 @@ public class Users implements Serializable {
     @Getter
     @Setter
     private int age;
+
+    public Users() {
+    }
+    
+    public Users(String firstName, String lastName, int age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+    }
+    
 }

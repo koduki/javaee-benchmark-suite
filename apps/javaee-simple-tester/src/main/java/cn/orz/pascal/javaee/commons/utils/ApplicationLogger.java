@@ -38,12 +38,13 @@ public class ApplicationLogger {
         return message;
     }
 
-    public String access(String uri, String ip, String userAgent, long tournaround) {
+    public String access(String uri, String ip, String userAgent, long tournaround, int status) {
         String message = buildMessage("access",
                 "URI:" + uri,
                 "IP:" + ip,
                 "UserAgent:" + userAgent,
-                "Turnaround(ms):" + tournaround);
+                "Turnaround(ms):" + tournaround,
+                "Status:" + status);
         this.appLogger.info(message);
         return message;
     }

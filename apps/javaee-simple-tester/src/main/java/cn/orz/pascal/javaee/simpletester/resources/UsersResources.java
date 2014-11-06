@@ -7,7 +7,6 @@ package cn.orz.pascal.javaee.simpletester.resources;
 
 import java.util.List;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -23,7 +22,7 @@ import cn.orz.pascal.javaee.commons.annotations.TimeLog;
  *
  * @author koduki
  */
-@Path("/users")
+@Path("/accounts")
 @TimeLog
 @ErrorLog
 @Transactional
