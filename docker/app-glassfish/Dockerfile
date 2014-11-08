@@ -9,6 +9,9 @@ RUN /tmp/install-oracle-jdk8.sh
 ADD resources/install-glassfish.sh /tmp/
 RUN /tmp/install-glassfish.sh
 
+# Install MySQL command
+RUN yum -y install mariadb
+
 #
 # Configurate GlassFish
 #

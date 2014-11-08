@@ -12,15 +12,12 @@ RUN yum update -y
 RUN yum install -y \
   sudo\
   passwd\
-  openssh\
-  openssh-server\
-  openssh-clients\
-  openssh-server-sysvinit\
   syslog\
   wget\
   rsync\
   unzip\
   nkf\
+  telnet\
   tar
 
 #
@@ -35,4 +32,3 @@ RUN echo "docker    ALL=(ALL)       ALL" >> /etc/sudoers.d/docker
 # App Dir
 #
 RUN echo 'export PATH=/usr/local/bin:$PATH' >> /root/.bashrc
-RUN 
