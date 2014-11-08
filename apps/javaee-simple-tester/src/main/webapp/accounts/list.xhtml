@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <head jsf:id="head">
+        <title>Account - Create</title>
+    </head>
+    <body jsf:id="body">
+        <a href="create.xhtml">Create</a>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+            </tr>
+            <ui:repeat var="user" value="#{accounts.list()}">
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.firstName}</td>
+                    <td>${user.lastName}</td>
+                    <td>${user.age}</td>
+                </tr>
+            </ui:repeat>
+        </table>
+
+    </body>
+</html>

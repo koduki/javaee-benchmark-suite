@@ -34,7 +34,7 @@ public class UsersDao implements Serializable {
     }
 
     public void edit(Users users) {
-        users = em.merge(users);
+        em.merge(users);
     }
 
     public void destroy(Long id) {

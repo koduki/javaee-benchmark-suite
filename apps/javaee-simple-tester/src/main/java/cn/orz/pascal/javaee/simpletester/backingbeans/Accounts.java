@@ -5,9 +5,11 @@
  */
 package cn.orz.pascal.javaee.simpletester.backingbeans;
 
+import static cn.orz.pascal.javaee.commons.utils.JSFUtils.*;
 import cn.orz.pascal.javaee.simpletester.models.Users;
 import cn.orz.pascal.javaee.simpletester.models.UsersDao;
 import java.io.Serializable;
+import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -38,13 +40,13 @@ public class Accounts implements Serializable {
     int age;
 
     public String create() {
-        System.err.println("hoge:" + firstName);
-        
         Users user = new Users(firstName, lastName, age);
-        //usersDao.create(user);
-        
-        
-        
-        return this.usersDao.findAll().toString();
+        this.usersDao.create(user);
+
+        return $("list");
+    }
+
+    public List<Users> list() {
+        return this.usersDao.findAll();
     }
 }
