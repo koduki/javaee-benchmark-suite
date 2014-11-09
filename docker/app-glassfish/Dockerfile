@@ -9,9 +9,6 @@ RUN /tmp/install-oracle-jdk8.sh
 ADD resources/install-glassfish.sh /tmp/
 RUN /tmp/install-glassfish.sh
 
-# Install MySQL command
-RUN yum -y install mariadb
-
 #
 # Configurate GlassFish
 #
@@ -28,6 +25,13 @@ RUN echo "AS_ADMIN_PASSWORD=glassfish" > pwdfile
 RUN \
   ./asadmin start-domain && \
   ./asadmin --user admin --passwordfile pwdfile enable-secure-admin && \
+  ./asadmin stop-domain
+
+# JDBC
+RUN \
+  ./asadmin start-domain && \
+  ./asadmin --user admin --passwordfile=pwdfile -I false create-jdbc-connection-pool --datasourceclassname com.mysql.jdbc.jdbc2.optional.MysqlDataSource --restype javax.sql.DataSource --property user=docker:password=password:url='jdbc\:mysql\://docker_db_1\:3306/testdb' MySQLPool && \
+  ./asadmin --user admin --passwordfile=pwdfile -I false create-jdbc-resource --connectionpoolid MySQLPool jdbc/testdb && \
   ./asadmin stop-domain
 
 # default glassfish ports

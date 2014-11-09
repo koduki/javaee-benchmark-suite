@@ -9,4 +9,8 @@ app:
 db:
   image: mysql
   environment:
+    MYSQL_USER: docker
+    MYSQL_PASSWORD: password
     MYSQL_ROOT_PASSWORD: password
+    MYSQL_DATABASE: testdb
+ 
