@@ -1,11 +1,15 @@
-app:
-  image: koduki/app-glassfish
+glassfish:
+  image: koduki/jst-app-glassfish
   ports:
     - "8080:8080"
     - "8181:8181"
     - "4848:4848"
   links:
     - db
+mng:
+  image: koduki/jst-mng
+  links:
+    - glassfish
 db:
   image: mysql
   environment:
@@ -13,4 +17,3 @@ db:
     MYSQL_PASSWORD: password
     MYSQL_ROOT_PASSWORD: password
     MYSQL_DATABASE: testdb
- 

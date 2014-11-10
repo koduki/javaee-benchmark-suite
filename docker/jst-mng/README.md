@@ -9,12 +9,12 @@ How to
 ### make image
 
 ``
-docker build -t koduki/app-glassfish .
+docker build -t koduki/jst-mng .
 docker images
 ``
 
 ### run image
 
 ``
-docker run -i -t koduki/base /bin/bash
+docker run -i -t koduki/jst-mng /bin/bash
 ``

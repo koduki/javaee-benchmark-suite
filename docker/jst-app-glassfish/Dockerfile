@@ -1,6 +1,9 @@
 FROM koduki/base
 MAINTAINER koduki
 
+# Install Build tools
+RUN yum -y install maven
+
 # Install Oracle JDK
 ADD resources/install-oracle-jdk8.sh /tmp/
 RUN /tmp/install-oracle-jdk8.sh
