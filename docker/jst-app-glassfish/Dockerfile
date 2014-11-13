@@ -37,6 +37,17 @@ RUN \
   ./asadmin --user admin --passwordfile=pwdfile -I false create-jdbc-resource --connectionpoolid MySQLPool jdbc/testdb && \
   ./asadmin stop-domain
 
+# Deploy Application
+RUN \
+  cd /tmp/ && \
+  wget -O jst.zip https://github.com/koduki/javaee-benchmark-suite/archive/master.zip && \
+  unzip jst.zip && \
+  cd javaee-benchmark-suite-master/apps/javaee-simple-tester/ && \
+  mvn package && \
+  cp target/javaee-simple-tester-1.0-SNAPSHOT.war /tmp/
+RUN \
+  cp /tmp/javaee-simple-tester-1.0-SNAPSHOT.war /opt/glassfish4/glassfish/domains/domain1/autodeploy/
+
 # default glassfish ports
 EXPOSE 4848 8080 8181
 
