@@ -14,6 +14,18 @@ RUN \
 RUN rm -rf /opt/gatling2/user-files/simulations/computerdatabase/
 ADD resources/RecordedSimulation.scala /opt/gatling2/user-files/simulations/RecordedSimulation.scala
 
-# RUN stress test
-WORKDIR /opt/gatling2/bin
-CMD ["./gatling.sh", "-m", "-s", "RecordedSimulation"]
+# Install Jenkins
+ADD resources/install-jenkins.sh /tmp/install-jenkins.sh
+RUN /tmp/install-jenkins.sh
+
+# Run Jenkins
+EXPOSE 8000
+EXPOSE 8686
+USER jenkins
+
+RUN mkdir -p /var/lib/jenkins/jobs/simple-test01
+ADD resources/simple-test01/config.xml /var/lib/jenkins/jobs/simple-test01/config.xml
+WORKDIR /var/lib/jenkins
+ENTRYPOINT ["java", "-DJENKINS_HOME=/var/lib/jenkins", \
+  "-jar", "/usr/lib/jenkins/jenkins.war", \
+  "--webroot=/var/cache/jenkins/war", "--httpPort=8000"]

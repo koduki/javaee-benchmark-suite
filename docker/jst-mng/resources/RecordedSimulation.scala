@@ -8,14 +8,14 @@ import io.gatling.jdbc.Predef._
 class RecordedSimulation extends Simulation {
 
 	val httpProtocol = http
-		.baseURL("http://192.168.1.105:8080")
+		.baseURL("http://glassfish:8080")
 		.inferHtmlResources()
 		.acceptHeader("""text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8""")
 		.acceptEncodingHeader("""gzip,deflate,sdch""")
 		.acceptLanguageHeader("""ja,en-US;q=0.8,en;q=0.6""")
 		.userAgentHeader("""Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36""")
 
-  val uri1 = """http://192.168.1.105:8080/javaee-simple-tester"""
+  val uri1 = """http://glassfish:8080/javaee-simple-tester"""
 	val scn = scenario("RecordedSimulation")
 		.exec(http("request_0")
 			.get("""/javaee-simple-tester/"""))

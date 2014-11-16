@@ -1,3 +1,10 @@
+mng:
+  image: koduki/jst-mng
+  ports:
+    - "8000:8000"
+    - "8686:8686"
+  links:
+    - glassfish
 glassfish:
   image: koduki/jst-app-glassfish
   ports:
@@ -6,10 +13,6 @@ glassfish:
     - "4848:4848"
   links:
     - db
-mng:
-  image: koduki/jst-mng
-  links:
-    - glassfish
 db:
   image: mysql
   environment:
