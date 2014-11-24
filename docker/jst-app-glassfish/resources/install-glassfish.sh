@@ -14,6 +14,8 @@ cd /tmp/
 wget $MYSQL_DRIVER_URL
 unzip mysql-connector-java-5.1.34.zip
 cp mysql-connector-java-5.1.34/mysql-connector-java-5.1.34-bin.jar /opt/glassfish4/glassfish/domains/domain1/lib/
+rm -rf mysql-connector-java-5.1.34/
+rm mysql-connector-java-5.1.34.zip
 
 # change permission
 useradd glassfish

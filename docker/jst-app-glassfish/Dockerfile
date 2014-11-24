@@ -3,6 +3,7 @@ MAINTAINER koduki
 
 # Install Build tools
 RUN yum -y install maven
+ADD resources/pom.xml /tmp/
 
 # Install Oracle JDK
 ADD resources/install-oracle-jdk8.sh /tmp/
@@ -11,6 +12,18 @@ RUN /tmp/install-oracle-jdk8.sh
 # Install GlassFish
 ADD resources/install-glassfish.sh /tmp/
 RUN /tmp/install-glassfish.sh
+
+# Install Fluentd
+ADD resources/install-fluentd.sh /tmp/
+RUN /tmp/install-fluentd.sh
+
+# Configurate Maven
+USER glassfish
+RUN cd /tmp && mvn install
+
+# Configurate Fluentd
+USER root
+ADD resources/fluent.conf /etc/fluent/fluent.conf
 
 #
 # Configurate GlassFish
@@ -31,22 +44,12 @@ RUN \
   ./asadmin stop-domain
 
 # JDBC
-RUN \
-  ./asadmin start-domain && \
-  ./asadmin --user admin --passwordfile=pwdfile -I false create-jdbc-connection-pool --datasourceclassname com.mysql.jdbc.jdbc2.optional.MysqlDataSource --restype javax.sql.DataSource --property user=docker:password=password:url='jdbc\:mysql\://docker_db_1\:3306/testdb' MySQLPool && \
-  ./asadmin --user admin --passwordfile=pwdfile -I false create-jdbc-resource --connectionpoolid MySQLPool jdbc/testdb && \
-  ./asadmin stop-domain
+ADD resources/glassfish-jdbc.sh /tmp/
+RUN /tmp/glassfish-jdbc.sh
 
 # Deploy Application
-RUN \
-  cd /tmp/ && \
-  wget -O jst.zip https://github.com/koduki/javaee-benchmark-suite/archive/master.zip && \
-  unzip jst.zip && \
-  cd javaee-benchmark-suite-master/apps/javaee-simple-tester/ && \
-  mvn package && \
-  cp target/javaee-simple-tester-1.0-SNAPSHOT.war /tmp/
-RUN \
-  cp /tmp/javaee-simple-tester-1.0-SNAPSHOT.war /opt/glassfish4/glassfish/domains/domain1/autodeploy/
+ADD resources/glassfish-deploy.sh /tmp/
+RUN /tmp/glassfish-deploy.sh
 
 # default glassfish ports
 EXPOSE 4848 8080 8181
@@ -54,4 +57,6 @@ EXPOSE 4848 8080 8181
 #
 # RUN GlassFish
 #
-CMD ["/opt/glassfish4/glassfish/bin/asadmin", "start-domain", "--verbose=true"]
+CMD /opt/glassfish4/glassfish/bin/asadmin start-domain --verbose=true && efluentd -c /etc/fluent/fluent.conf
+
+#USER root
