@@ -1,4 +1,4 @@
-FROM koduki/base
+FROM koduki/centos7
 MAINTAINER koduki
 
 # Build tools

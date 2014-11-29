@@ -1,8 +1,8 @@
 #!/bin/bash
 
-USER_NAME=dokcer
+USER_NAME=docker
 PASSWORD=password
-URL='jdbc\:mysql\://docker_db_1\:3306/testdb'
+URL='jdbc\:mysql\://db\:3306/testdb'
 RESOURCE_NAME=jdbc/testdb
 POOL_NAME=MySQLPool
 DATASOURCE_NAME=com.mysql.jdbc.jdbc2.optional.MysqlDataSource

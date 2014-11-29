@@ -1,4 +1,4 @@
-FROM koduki/base
+FROM koduki/centos7
 MAINTAINER koduki
 
 # Install Build tools
@@ -57,6 +57,11 @@ EXPOSE 4848 8080 8181
 #
 # RUN GlassFish
 #
-CMD /opt/glassfish4/glassfish/bin/asadmin start-domain --verbose=true && efluentd -c /etc/fluent/fluent.conf
+#USER root
+#RUN yum -y install mariadb tcpdump
+USER glassfish
+CMD /opt/glassfish4/glassfish/bin/asadmin start-domain --verbose=true && fluentd -c /etc/fluent/fluent.conf
+#CMD fluentd -c /etc/fluent/fluent.conf
+#CMD tcpdump -X -s 0 -w /tmp/mysql.cap port 3306
 
 #USER root

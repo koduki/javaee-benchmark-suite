@@ -14,7 +14,7 @@ glassfish:
   links:
     - db
 db:
-  image: mysql
+  image: koduki/mysql
   environment:
     MYSQL_USER: docker
     MYSQL_PASSWORD: password
