@@ -1,8 +1,15 @@
+consulboot:
+  image: progrium/consul
+  command:
+  ports: 
+    - "8500:8500"
+    - "53:53"
 mng:
   image: koduki/jst-mng
   ports:
     - "8000:8000"
     - "8686:8686"
+    - "24224:24224"
   links:
     - glassfish
 glassfish:

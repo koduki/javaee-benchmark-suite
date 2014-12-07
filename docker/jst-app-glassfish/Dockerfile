@@ -25,11 +25,17 @@ RUN cd /tmp && mvn install
 USER root
 ADD resources/fluent.conf /etc/fluent/fluent.conf
 
+# Install Consul
+ADD resources/install-consul.sh /tmp/
+RUN /tmp/install-consul.sh
+ADD resources/consul.d/web.json /etc/consul/conf.d/
+
 #
 # Configurate GlassFish
 #
 
 # set glassfish user and workdir
+#USER glassfish
 USER glassfish
 WORKDIR /opt/glassfish4/bin
 
@@ -55,13 +61,8 @@ RUN /tmp/glassfish-deploy.sh
 EXPOSE 4848 8080 8181
 
 #
-# RUN GlassFish
+# RUN GlassFish and Fluentd
 #
-#USER root
-#RUN yum -y install mariadb tcpdump
-USER glassfish
-CMD /opt/glassfish4/glassfish/bin/asadmin start-domain --verbose=true && fluentd -c /etc/fluent/fluent.conf
-#CMD fluentd -c /etc/fluent/fluent.conf
-#CMD tcpdump -X -s 0 -w /tmp/mysql.cap port 3306
-
-#USER root
+USER root
+ADD resources/run.sh /tmp/run.sh
+CMD /tmp/run.sh

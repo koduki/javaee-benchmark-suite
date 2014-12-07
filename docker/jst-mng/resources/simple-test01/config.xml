@@ -16,12 +16,12 @@
       <command># Run test.
 WORKDIR=`pwd`
 cd /opt/gatling2/bin
-sudo ./gatling.sh -m -s RecordedSimulation
+./gatling.sh -m -s RecordedSimulation
 
 # Collect test result.
 cd $WORKDIR
 RESULT_FILE=`ls -1 /opt/gatling2/results/recordedsimulation-*/simulation.log |sort|tail -1`
-sudo cp ${RESULT_FILE} ./</command>
+cp ${RESULT_FILE} ./</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
