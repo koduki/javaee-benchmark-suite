@@ -46,6 +46,7 @@ function dockers_up {
   echo "booted mysql"
  
   # run  koduki/jst-mng
+  sleep 1s  
   echo "start mng-server"
   docker run \
     --link=consulboot:consulboot \
@@ -54,6 +55,7 @@ function dockers_up {
   echo "booted mng-server"
 
   # run  koduki/jst-app-glassfish
+  sleep 1s  
   echo "start app-server"
   docker run \
     --link=consulboot:consulboot \

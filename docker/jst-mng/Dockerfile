@@ -33,7 +33,8 @@ EXPOSE 8686
 USER root
 
 RUN mkdir -p /var/lib/jenkins/jobs/simple-test01
-ADD resources/simple-test01/config.xml /var/lib/jenkins/jobs/simple-test01/config.xml
+ADD resources/simple-test01/config.xml /var/lib/jenkins/jobs/simple-test01/
+ADD resources/simple-test01/report.rb /var/lib/jenkins/jobs/simple-test01/
 WORKDIR /var/lib/jenkins
 ADD resources/run.sh /tmp/
 ENTRYPOINT /tmp/run.sh

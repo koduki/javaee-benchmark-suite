@@ -21,12 +21,17 @@ cd /opt/gatling2/bin
 # Collect test result.
 cd $WORKDIR
 RESULT_FILE=`ls -1 /opt/gatling2/results/recordedsimulation-*/simulation.log |sort|tail -1`
-cp ${RESULT_FILE} ./</command>
+cp ${RESULT_FILE} ./
+
+sleep 60s
+grep 'URI' /tmp/app.log.* > app.log
+ruby ../report.rb > report.html
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>simulation.log</artifacts>
+      <artifacts>report.html</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
