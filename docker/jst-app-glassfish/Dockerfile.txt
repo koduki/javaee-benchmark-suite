@@ -24,36 +24,20 @@ RUN cd /tmp && mvn install
 # Configurate Fluentd
 USER root
 ADD resources/fluent.conf /etc/fluent/fluent.conf
- 
+
 # Install Consul 
 ADD resources/install-consul.sh /tmp/
 RUN /tmp/install-consul.sh
 ADD resources/consul.d/web.json /etc/consul/conf.d/
 
 # Install HeapStat
-RUN cd /tmp && \
+RUN cd /tmp &&\
 yum -y install pcre-devel net-snmp-devel binutils-devel && \
 wget http://icedtea.wildebeest.org/download/heapstats/heapstats-1.1.2/bin/agent/fc20/srpm/heapstats_agent-1.1.2-0.fc20.src.rpm && \
 rpmbuild --rebuild heapstats_agent-1.1.2-0.fc20.src.rpm && \
 yum -y install /root/rpmbuild/RPMS/x86_64/heapstats_agent-1.1.2-0.el7.centos.x86_64.rpm && \
 rm -rf /root/rpmbuild/
 ADD resources/heapstats.conf /etc/heapstats/heapstats.conf
-
-# Install Jolokia
-RUN mkdir /opt/jolokia && \
-cd /opt/jolokia && \
-wget https://repo1.maven.org/maven2/org/jolokia/jolokia-jvm/1.2.3/jolokia-jvm-1.2.3-agent.jar
-
-RUN cd /tmp && \
-wget https://github.com/lburgazzoli/lb-fluent-plugin-jolokia/archive/master.zip && \
-unzip master.zip && \
-gem install rake bundler && \
-cd lb-fluent-plugin-jolokia-master/
-rake && \
-gem install pkg/fluent-plugin-jolokia-0.0.1.gem && \
-cd .. && \
-rm -rf master.zip && \
-rm -rf lb-fluent-plugin-jolokia-master/
 
 #
 # Configurate GlassFish
@@ -76,11 +60,11 @@ RUN \
 
 # Server Confirations
 ADD resources/glassfish-jdbc.sh /tmp/
-ADD resources/glassfish-jolokia.sh /tmp/
+ADD resources/glassfish-heapstat.sh /tmp/
 ADD resources/glassfish-gc.sh /tmp/
 RUN ./asadmin start-domain && \
     /tmp/glassfish-jdbc.sh && \
-    /tmp/glassfish-jolokia.sh && \
+    /tmp/glassfish-heapstat.sh && \
     /tmp/glassfish-gc.sh && \
    ./asadmin stop-domain
 
@@ -90,6 +74,9 @@ RUN /tmp/glassfish-deploy.sh
 
 # default glassfish ports
 EXPOSE 4848 8080 8181
+
+# fluentd JVM
+RUN gem install fluent-plugin-jvmwatcher --no-ri --no-rdoc
 
 #
 # RUN GlassFish and Fluentd
